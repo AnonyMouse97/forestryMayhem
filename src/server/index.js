@@ -8,6 +8,7 @@
 
 import express from "express";
 import path from "path";
+require("dotenv").config();
 
 const {APP_PORT} = process.env;
 
