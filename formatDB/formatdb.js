@@ -3,14 +3,16 @@ const util = require('util');
 const path = require('path');
 
 const readFile = util.promisify(fs.readFile);
-const test = path.join(__dirname, '../data', 'arbustum_raw.json')
+const writeFile = util.promisify(fs.writeFile);
+const file = path.join(__dirname, '../data', 'arbustum_raw.json');
+const target = path.join(__dirname, '../data', 'arbustum_clean.json');
 
 
 const read = async () => {
     try {
-        const data = await readFile(test, 'utf8');
+        const data = await readFile(file, 'utf8');
         const trees = JSON.parse(data);
-
+        const buffer = new ArrayBuffer
         let formatTreesList = []
 
         let avgHeiht = avgSize(trees, 'hauteur_totale');
@@ -28,14 +30,22 @@ const read = async () => {
             }
 
             formatTree = {
+                treeName: '',
                 treeSpecies: tree.nom_complet,
+                wikilink: '',
                 location: tree.geoloc,
+                value: Math.round(parseFloat(tree.hauteur_totale) * parseFloat(tree.diametre_cime)),
+                diameter: parseFloat(tree.diametre_cime),
                 height: parseFloat(tree.hauteur_totale),
-                width: parseFloat(tree.diametre_cime)
+                locked: false,
+                currentOwner: '',
+                pastOwners: [],
+                comments: []
             }
             formatTreesList.push(formatTree);
         })
-        return formatTreesList;
+        const result = await JSON.stringify(formatTreesList, null, 2);
+        return result;
     } catch (err) {
         console.log('Error parsing JSON string : ', err);
     }
@@ -54,19 +64,5 @@ const avgSize = (trees, mode) => {
 }
 
 read().then((value) => {
-    console.log(value);
+    writeFile(target, value);
 });
-
-/*
-        fs.readFile('./data/arbustum.json', 'utf8', (err, jsonString) => {
-            if (err) {
-                console.log('File read failed : ', err);
-                return;
-            }
-            try {
-
-            });
-        return formatTreesList;
-    } catch (error) {
-    }
-}); */
