@@ -12,7 +12,6 @@ const read = async () => {
     try {
         const data = await readFile(file, 'utf8');
         const trees = JSON.parse(data);
-        const buffer = new ArrayBuffer
         let formatTreesList = []
 
         let avgHeiht = avgSize(trees, 'hauteur_totale');
@@ -66,3 +65,19 @@ const avgSize = (trees, mode) => {
 read().then((value) => {
     writeFile(target, value);
 });
+
+
+async function getNames() {
+    const data = await readFile(file, 'utf8');
+    const trees = JSON.parse(data);
+    let treeNames = []
+    trees.forEach(tree => {
+        if (tree.nom_complet == 'en cours de détermination' || tree.nom_complet == 'A DETERMINER') {
+            return
+        }
+        treeNames.push(tree.nom_complet)
+    })
+    let singleNames = [...new Set(treeNames)]
+    console.log(singleNames)
+}
+getNames()
