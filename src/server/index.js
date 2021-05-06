@@ -1,26 +1,47 @@
-/* becodeorg/mwenbwa
+/* becodeorg/TimberMayhem
  *
  * /src/server/index.js - Server entry point
  *
- * coded by leny@BeCode
- * started at 18/05/2020
+ * coded by samuel & charlotte @BeCode
+ * started on 05/2021
  */
 
-import express from "express";
-import path from "path";
-require("dotenv").config();
+//import
+import express from 'express';
+import path from 'path';
+import mongoose from 'mongoose';
+import { use } from './routes/user.routes';
 
-const {APP_PORT} = process.env;
+require('dotenv').config();
 
 const app = express();
+const { APP_PORT, ATLAS_URI } = process.env;
 
-app.use(express.static(path.resolve(__dirname, "../../bin/client")));
+const userRoutes = require('./routes/user.routes');
 
-app.get("/hello", (req, res) => {
-    console.log(`ℹ️  (${req.method.toUpperCase()}) ${req.url}`);
-    res.send("Hello, World!");
-});
 
+
+// connection to db
+mongoose.connect(ATLAS_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+})
+    .then(() => console.log('🤡 MongoDB database connected succesfully !'))
+    .catch((err) => console.warn(`👮 Failed to connect to MongoDB : \n ${err}`))
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+//routes
+app.use('/api/user', userRoutes);
+
+
+
+
+// listening on port
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );

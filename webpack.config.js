@@ -9,7 +9,7 @@
 /* eslint-disable */
 
 const webpack = require("webpack");
-const {resolve} = require("path");
+const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = env => {
@@ -107,7 +107,7 @@ module.exports = env => {
         },
         plugins,
         optimization,
-        performance: {hints: false},
+        performance: { hints: false },
         output: {
             path: resolve(__dirname, "./bin/client"),
             filename: env === "dev" ? "js/bundle.js" : "js/[chunkhash].js",
