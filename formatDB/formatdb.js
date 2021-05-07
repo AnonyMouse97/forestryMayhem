@@ -1,3 +1,4 @@
+const axios = require('axios')
 const fs = require('fs');
 const util = require('util');
 const path = require('path');
@@ -24,7 +25,7 @@ const read = async () => {
             if (tree.diametre_cime == null) {
                 tree.diametre_cime = Math.round(avgDiameter);
             }
-            if (tree.nom_complet == 'en cours de détermination' || tree.nom_complet == 'A DETERMINER') {
+            if (tree.nom_complet == 'en cours de détermination' || tree.nom_complet == 'A DETERMINER' || tree.nom_complet == 'A SUPPRIMER' || tree.nom_complet == 'ABATTU' || tree.nom_complet == 'Indeterminé') {
                 tree.nom_complet = null;
             }
 
@@ -62,22 +63,7 @@ const avgSize = (trees, mode) => {
     return size.reduce((a, b) => (a + b)) / size.length;
 }
 
+
 read().then((value) => {
     writeFile(target, value);
 });
-
-
-async function getNames() {
-    const data = await readFile(file, 'utf8');
-    const trees = JSON.parse(data);
-    let treeNames = []
-    trees.forEach(tree => {
-        if (tree.nom_complet == 'en cours de détermination' || tree.nom_complet == 'A DETERMINER') {
-            return
-        }
-        treeNames.push(tree.nom_complet)
-    })
-    let singleNames = [...new Set(treeNames)]
-    console.log(singleNames)
-}
-getNames()
