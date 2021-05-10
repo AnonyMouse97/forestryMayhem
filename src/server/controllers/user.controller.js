@@ -4,7 +4,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 // display all users in the DB with the path "localhost:APP_PORT/api/user"
 module.exports.getAllUsers = async (req, res) => {
     // We don't want sensitive infos on the client's side -> remove password from the request
-    const users = await UserModel.find().select('-password')
+    const users = await UserModel.find().select('-password -email')
     res.status(200).json(users)
 }
 
@@ -22,5 +22,5 @@ module.exports.userInfo = (req, res) => {
         } else {
             console.log(`ID unknown: ${err}`)
         }
-    }).select('-password')
+    }).select('-password -email')
 }

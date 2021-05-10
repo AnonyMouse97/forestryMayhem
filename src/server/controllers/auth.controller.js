@@ -5,8 +5,8 @@ module.exports.signUp = async (req, res) => {
     const { username, password, email } = req.body;
     try {
         // search ownerless trees
-        const trees = await TreeModel.find({ currentOwner: "" }).limit(3)
-        console.log(trees)
+        // const trees = await TreeModel.find({ currentOwner: "" }).limit(3)
+        const trees = await TreeModel.aggregate([{ $match: { currentOwner: "" } }, { $sample: { size: 3 } }])
         const [firstTree, secondTree, thirdTree] = trees
         const freeTrees = new Array(firstTree._id, secondTree._id, thirdTree._id)
 
@@ -17,7 +17,7 @@ module.exports.signUp = async (req, res) => {
         for (let tree of trees) {
             const userObject = {
                 currentOwner: user._id,
-                pastOwners: [...tree.pastOwners, user.username]
+                pastOwners: [user._id]
             }
             const res = await TreeModel.updateOne({ _id: tree._id }, { $set: userObject })
             console.log(res)
