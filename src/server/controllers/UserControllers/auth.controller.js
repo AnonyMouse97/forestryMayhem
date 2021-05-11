@@ -3,7 +3,7 @@ const TreeModel = require("../../models/tree.model");
 const { getLogs } = require("../../helpers/getLogs.helper");
 
 module.exports.signUp = async (req, res) => {
-    const { userName, password, email, color, profilePic, logs } = req.body;
+    const { userName, password, email, color, profilePic } = req.body;
     try {
         // search ownerless trees
         const trees = await TreeModel.aggregate([
@@ -17,15 +17,9 @@ module.exports.signUp = async (req, res) => {
             thirdTree._id,
         );
 
-        //request to users
-        try {
-            const users = await getLogs();
-            console.log(users);
-        } catch (error) {
-            console.log(error);
-        }
-
-
+        //request to getLogs
+        const freeLogs = Math.floor(await getLogs());
+        console.log(freeLogs);
 
         // [#fc5c65, #fd9644, #fed330, #26de81, #2bcbba, #45aaf2, #4b7bec, #a55eea]
         //const randPic = `./src/public/img/profilePics/default/default${Math.floor(Math.random() * 6)}.png`;
@@ -37,7 +31,7 @@ module.exports.signUp = async (req, res) => {
             email,
             profilePic,
             color,
-            logs,
+            logs: freeLogs,
             trees: freeTrees,
         });
 

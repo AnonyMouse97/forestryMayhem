@@ -12,7 +12,6 @@ module.exports.getAllUsers = async (req, res) => {
 // find one user in particular using his ID
 module.exports.userInfo = (req, res) => {
     // params = parameters in url, body = parameters in forms
-    console.log(req.params);
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`ID unknown: ${req.params.id}`);
     }
