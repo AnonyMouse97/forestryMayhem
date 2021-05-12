@@ -19,7 +19,6 @@ module.exports.signUp = async (req, res) => {
 
         //request to getLogs
         const freeLogs = Math.floor(await getLogs());
-        console.log(freeLogs);
 
         // [#fc5c65, #fd9644, #fed330, #26de81, #2bcbba, #45aaf2, #4b7bec, #a55eea]
         //const randPic = `./src/public/img/profilePics/default/default${Math.floor(Math.random() * 6)}.png`;

@@ -11,23 +11,19 @@ module.exports.getMostTrees = async (req, res) => {
     res.status(200).json(mostTrees);
 }
 
-function findNameOfTree(id) {
-    const species = TreeModel.findById(id)
-    return species
-}
-
 module.exports.getMostSpecies = async (req, res) => {
-    const speciesName = await UserModel.aggregate([
+    const userTrees = await UserModel.aggregate([
         {
             $lookup:
             {
                 from: "trees",
                 localField: "trees",
-                foreignField: "treeSpecies",
-                as: "test"
-            }
+                foreignField: "_id",
+                as: "treeDetail"
+            },
+
         }
     ])
-    // const numberOfSpecies = await UserModel.find({}).sort({ trees: -1 }).limit(5)
-    res.status(200).json(speciesName)
+
+    res.status(200).json(x);
 }
