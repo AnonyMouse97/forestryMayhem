@@ -20,6 +20,7 @@ const { APP_PORT, ATLAS_URI } = process.env;
 const userRoutes = require("./routes/user.routes");
 const treeRoutes = require("./routes/tree.routes");
 const leaderRoutes = require("./routes/leader.routes")
+const historyRoutes = require("./routes/history.routes")
 
 // connection to db
 mongoose
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", userRoutes);
 app.use("/api/tree", treeRoutes);
 app.use("/api/leaderboard", leaderRoutes);
+app.use("/api/history", historyRoutes)
 
 // listening on port
 app.listen(APP_PORT, () =>

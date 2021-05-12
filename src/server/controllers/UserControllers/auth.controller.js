@@ -36,14 +36,15 @@ module.exports.signUp = async (req, res) => {
 
         // add new owner to free trees
         for (const tree of trees) {
-            const userObject = {
+            const newUser = {
                 currentOwner: user._id,
                 pastOwners: [user._id],
             };
-            const res = TreeModel.updateOne(
+            const res = await TreeModel.updateOne(
                 { _id: tree._id },
-                { $set: userObject },
+                { $set: newUser },
             );
+            console.log(res)
         }
 
         res.status(201).json({ user: user._id });
