@@ -38,7 +38,7 @@ module.exports.getMostSpecies = async (req, res) => {
             arrayTree.push(tree.treeSpecies)
         })
 
-        let sortedTrees = { array: [... new Set(arrayTree)], userId: user[0]._id }
+        let sortedTrees = { array: [... new Set(arrayTree)], userId: user[0].currentOwner }
         singledOutTreesOfUsers.push(sortedTrees)
     })
 

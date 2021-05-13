@@ -16,3 +16,22 @@ module.exports.treeInfo = (req, res) => {
         }
     }).select();
 };
+
+module.exports.addComment = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).send(`ID unknown: ${req.params.id}`);
+    }
+    try {
+        await TreeModel.findByIdAndUpdate(
+            req.params.id,
+            { $addToSet: { comments: { Author: req.body.author, Message: req.body.message } } },
+            { new: true, upsert: true },
+            (err, docs) => {
+                if (!err) res.status(201).json(docs)
+                else return res.status(400).json(err)
+            }
+        )
+    } catch (err) {
+        return res.status(500).json({ message: err })
+    }
+}
