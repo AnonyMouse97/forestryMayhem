@@ -1,4 +1,5 @@
 const UserModel = require("../../models/user.model");
+const bcrypt = require("bcrypt");
 const ObjectId = require("mongoose").Types.ObjectId;
 
 // display all users in the DB with the path "localhost:APP_PORT/api/user"
@@ -7,21 +8,6 @@ module.exports.getAllUsers = async (req, res) => {
     const users = await UserModel.find().select("-password -email");
     res.status(200).json(users);
 };
-
-// // find one user in particular using his ID
-// module.exports.userInfo = (req, res) => {
-//     // params = parameters in url, body = parameters in forms
-//     if (!ObjectId.isValid(req.params.id)) {
-//         return res.status(400).send(`ID unknown: ${req.params.id}`);
-//     }
-//     UserModel.findById(req.params.id, (err, data) => {
-//         if (!err) {
-//             res.send(data);
-//         } else {
-//             console.log(`ID unknown: ${err}`);
-//         }
-//     }).select("-password -email");
-// };
 
 module.exports.userInfo = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
@@ -47,7 +33,6 @@ module.exports.userInfo = async (req, res) => {
             }
         }
     ])
-    console.log("test")
     res.status(200).json(info)
 }
 
@@ -57,12 +42,14 @@ module.exports.updateUser = async (req, res) => {
     }
 
     try {
+        const salt = await bcrypt.genSalt()
+
         await UserModel.findOneAndUpdate(
             { _id: req.params.id },
             {
                 $set: {
                     userName: req.body.userName,
-                    password: req.body.password,
+                    password: await bcrypt.hash(req.body.password, salt),
                     profilePic: req.body.profilePic,
                     color: req.body.color
                 }
@@ -73,6 +60,7 @@ module.exports.updateUser = async (req, res) => {
                 if (err) return res.status(500).send({ message: err })
             }
         )
+
     } catch (err) {
         return res.status(500).json({ message: err })
 

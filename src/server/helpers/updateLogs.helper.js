@@ -1,43 +1,40 @@
 const UserModel = require("../models/user.model")
 
-module.exports.divideLogs = async (req, res) => {
+module.exports.divideLogs = async (res) => {
     try {
-        const users = await UserModel.find().select("-password -email")
+        const divideLogs = await UserModel.updateMany(
+            {},
+            { $mul: { logs: 0.5 } }
+        )
 
-        for (const user of users) {
-            const logsDivided = Math.floor(user.logs / 2)
+        res.status(200).send({ message: "Half of your logs have been burned down..." })
 
-            UserModel.findOneAndUpdate(
-                { _id: user._id },
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+module.exports.addLogs = async (res) => {
+    try {
+        const test = await UserModel.aggregate([
+            {
+                $lookup:
                 {
-                    $set: {
-                        logs: logsDivided
-                    }
-                },
-                { new: true, upsert: true, setDefaultsOnInsert: true, useFindAndModify: false },
-                (err, docs) => {
-                    if (!err) return res.send(docs)
-                    if (err) return res.status(500).send({ message: err })
+                    from: "trees",
+                    localField: "trees",
+                    foreignField: "_id",
+                    as: "treeDetail"
                 }
-            )
-            console.log(user.id)
-        }
-        // users.forEach((user) => {
-        //     const logsDivided = Math.floor(user.logs / 2)
-        //     await UserModel.findOneAndUpdate(
-        //         { _id: user._id },
-        //         {
-        //             $set: {
-        //                 logs: logsDivided
-        //             }
-        //         },
-        //         { new: true, upsert: true, setDefaultsOnInsert: true, useFindAndModify: false },
-        //         (err, docs) => {
-        //             if (!err) return res.send(docs)
-        //             if (err) return res.status(500).send({ message: err })
-        //         }
-        //     )
-        // })
+            },
+            {
+                $project:
+                {
+                    userName: 1,
+                    logs: { $sum: "$treeDetail.value" }
+                }
+            }
+        ])
+
     } catch (err) {
         console.log(err)
     }

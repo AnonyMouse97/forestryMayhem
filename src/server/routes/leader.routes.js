@@ -5,6 +5,6 @@ const testController = require("../helpers/updateLogs.helper")
 router.get("/logs", leaderController.getMostLogs);
 router.get("/trees", leaderController.getMostTrees);
 router.get("/species", leaderController.getMostSpecies);
-router.get("/test", testController.divideLogs)
+router.get("/test", testController.addLogs)
 
 module.exports = router;
