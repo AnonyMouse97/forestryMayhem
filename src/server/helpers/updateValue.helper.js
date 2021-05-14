@@ -20,19 +20,30 @@ module.exports.getValue = async (originalTree, userId, inRange) => {
     // remove! after testings
     inRange.forEach(tree => {
         if (!tree.currentOwner) {
-            const originalValue = tree.value;
             if (tree.owner == userId) {
                 playerValue += tree.value;
             }
-            if (tree.owner = tree.currentOwner) {
-
+            if (tree.currentOwner == originalTree.currentOwner) {
+                targetValue += tree.value;
+                targetAmount++;
             }
             else {
                 ownedValue += tree.value;
             }
 
+
         }
     });
 
-    return originalTree;
+    let newValue = (targetValue * (inRangeAmount / targetAmount)) + (ownedValue - playerValue)
+
+    inRange.forEach(tree => {
+        try {
+            await TreeModel.updateOne(
+                { _id: ObjectId(tree._id) },
+                { $inc: { value: newValue } })
+        } catch (err) {
+            resizeBy.status(400).send(`Could not update values : ${err}`)
+        }
+    });
 }
