@@ -1,39 +1,39 @@
 const TreeModel = require("../models/tree.model");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 
-module.exports.getInRange = (treeId) => {
+module.exports.getInRange = async (originalTree) => {
 
+    // get lat and lon from original tree
+    let lat = originalTree.location.lat;
+    let lon = originalTree.location.lon;
+    // 1° = 111km => 100m = 0,0009009° conversion
+    const deg = 0.00090009;
 
-    TreeModel.findById(treeId, (err, data) => {
-        if (!err) {
-            test(data)
+    // get trees
+    const treesInSquare = await TreeModel.find({
+        "location.lat": {
+            $gt: lat - deg / 2, $lt: lat + deg / 2
+        }, "location.lon": {
+            $gt: lon - deg / 2, $lt: lon + deg / 2
+        }
+    })
+
+    let treesInRadius = [];
+
+    let pythRadius = Math.pow(deg, 2);
+
+    treesInSquare.forEach(tree => {
+
+        let x = Math.abs(tree.location.lat - lat);
+        let y = Math.abs(tree.location.lon - lon);
+
+        if (Math.pow(x, 2) + Math.pow(y, 2) <= pythRadius) {
+            treesInRadius.push(tree);
         } else {
-            console.log(`Error : ${err}`);
+            console.log('pop')
         }
     });
 
-
-    //get trees
-    // 1° = 111km => 100m = 0,9009°  lat: 50.627697, lon: 5.60454, id : 609541a2212e8518f09ab8ec
-
-    let x = 50.627697;
-    let y = 5.60454;
-    const deg = 0.90009;
-
-    () => {
-        TreeModel.find({
-            $and: [
-                {
-                    "location.lat": { $gt: x - deg },
-                    "location.lat": { $lt: x + deg },
-                    "location.lon": { $gt: y - deg },
-                    "location.lon": { $lt: y + deg }
-                }
-            ]
-        })
-    }
-
-    const test = (data) => {
-        console.log(data);
-    }
+    return treesInRadius;
 }
