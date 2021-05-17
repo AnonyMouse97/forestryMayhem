@@ -34,12 +34,22 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, "../../bin/client")));
 
 //routes
 app.use("/api/user", userRoutes);
 app.use("/api/tree", treeRoutes);
 app.use("/api/leaderboard", leaderRoutes);
 app.use("/api/history", historyRoutes)
+
+
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../../bin/client/'), function (err) {
+        if (err) {
+            res.status(500).send(err)
+        }
+    })
+})
 
 // listening on port
 app.listen(APP_PORT, () =>

@@ -1,0 +1,7 @@
+#app {
+    overflow: hidden;
+}
+
+.leaflet-container {
+    height: 98vh;
+}
