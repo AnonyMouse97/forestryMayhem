@@ -21,7 +21,7 @@ module.exports.getInRange = async (originalTree) => {
 
     let treesInRadius = [];
 
-    let pythRadius = Math.pow(deg, 2);
+    let pythRadius = Math.pow(deg / 2, 2);
 
     treesInSquare.forEach(tree => {
 
@@ -30,8 +30,6 @@ module.exports.getInRange = async (originalTree) => {
 
         if (Math.pow(x, 2) + Math.pow(y, 2) <= pythRadius) {
             treesInRadius.push(tree);
-        } else {
-            console.log('pop')
         }
     });
 

@@ -38,6 +38,7 @@ const read = async () => {
                 diameter: parseFloat(tree.diametre_cime),
                 height: parseFloat(tree.hauteur_totale),
                 locked: false,
+                lockPrice: 0,
                 currentOwner: '',
                 pastOwners: [],
                 comments: []
