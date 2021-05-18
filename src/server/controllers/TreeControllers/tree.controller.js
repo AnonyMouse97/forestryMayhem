@@ -10,7 +10,7 @@ module.exports.getTrees = async (req, res) => {
         const trees = await TreeModel.find({}, { location: 1 });
         res.status(200).json(trees);
     } catch (err) {
-        res.status(500).send(`Could not find. Error : ${err}`);
+        res.status(500).json({ message: `Could not find. Error : ${err}` });
     }
 }
 
@@ -19,13 +19,13 @@ module.exports.getTrees = async (req, res) => {
 module.exports.treeInfo = (req, res) => {
     // params = parameters in url, body = parameters in forms
     if (!ObjectId.isValid(req.params.id)) {
-        return res.status(400).send(`ID unknown: ${req.params.id}`);
+        return res.status(400).json(`ID unknown: ${req.params.id}`);
     }
     TreeModel.findById(req.params.id, (err, data) => {
         if (!err) {
-            res.send(data);
+            res.json(data);
         } else {
-            console.log(`ID unknown: ${err}`);
+            res.status(400).json({ message: `ID unknown: ${err}` });
         }
     }).select();
 };
@@ -92,15 +92,15 @@ module.exports.buyTree = async (req, res) => {
 
                 }
 
-                res.status(200).send(`Tree #${req.params.id} has been purchased.`);
+                res.status(200).json({ message: `Tree #${req.params.id} has been purchased.` });
             } else {
-                res.status(500).send(`User #${req.body.newOwnerId} has not enough logs.`)
+                res.status(500).json({ message: `User #${req.body.newOwnerId} has not enough logs.` })
             }
         } else {
-            res.status(500).send(`User #${req.body.newOwnerId} already owns the tree.`)
+            res.status(500).json({ message: `User #${req.body.newOwnerId} already owns the tree.` })
         }
     } else {
-        res.status(500).send(`Tree #${req.params.id} is locked.`)
+        res.status(500).json({ message: `Tree #${req.params.id} is locked.` })
     }
 
 };
@@ -115,7 +115,7 @@ module.exports.buyTree = async (req, res) => {
  */
 module.exports.lockTree = async (req, res) => {
     if (!ObjectId.isValid(req.params.id) || !ObjectId.isValid(req.body.ownerId)) {
-        return res.status(400).send(`ID unknown: ${req.params.id}`);
+        return res.status(400).json({ message: `ID unknown: ${req.params.id}` });
     }
 
     // get original tree
@@ -142,15 +142,15 @@ module.exports.lockTree = async (req, res) => {
                         $inc: { logs: - tree.lockPrice }
                     });
 
-                res.status(200).send('Tree locked ! 🔒')
+                res.status(200).json({ message: 'Tree locked ! 🔒' })
 
             } else {
-                res.status(500).send(`Not enough logs...`);
+                res.status(500).json({ message: `Not enough logs...` });
             }
         } else {
-            res.status(500).send(`You are not the owner of tree #${req.params.id}.`);
+            res.status(500).json({ message: `You are not the owner of tree #${req.params.id}.` });
         }
     } else {
-        res.status(500).send(`Tree #${req.params.id} is already locked.`);
+        res.status(500).json({ message: `Tree #${req.params.id} is already locked.` });
     }
 }
