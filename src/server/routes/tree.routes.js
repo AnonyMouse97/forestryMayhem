@@ -6,5 +6,6 @@ router.get("/", treeController.getTrees)
 router.get("/:id", treeController.treeInfo);
 router.put("/buy/:id", treeController.buyTree);
 router.put("/lock/:id", treeController.lockTree);
+router.patch("/comment/:id", treeController.addComment)
 
 module.exports = router;

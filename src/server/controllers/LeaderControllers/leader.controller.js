@@ -1,5 +1,4 @@
 const UserModel = require("../../models/user.model");
-const TreeModel = require("../../models/tree.model");
 
 module.exports.getMostLogs = async (req, res) => {
     const mostLogs = await UserModel.find({}).sort({ logs: -1 }).limit(5)
@@ -20,10 +19,40 @@ module.exports.getMostSpecies = async (req, res) => {
                 localField: "trees",
                 foreignField: "_id",
                 as: "treeDetail"
-            },
-
+            }
+        },
+        {
+            $group:
+            {
+                _id: null,
+                trees: { $addToSet: "$treeDetail" },
+            }
         }
     ])
 
-    res.status(200).json(x);
+    let singledOutTreesOfUsers = []
+
+    userTrees[0].trees.forEach((user) => {
+        let arrayTree = []
+        user.forEach((tree) => {
+            arrayTree.push(tree.treeSpecies)
+        })
+
+        let sortedTrees = { array: [... new Set(arrayTree)], userId: user[0].currentOwner }
+        singledOutTreesOfUsers.push(sortedTrees)
+    })
+
+    function compare(a, b) {
+        if (a.array.length < b.array.length) {
+            return 1
+        }
+        if (a.array.length > b.array.length) {
+            return -1
+        }
+        return 0
+    }
+
+    let sortedResult = singledOutTreesOfUsers.sort(compare)
+
+    res.status(200).json(sortedResult);
 }
