@@ -3,6 +3,7 @@ const UserModel = require("../../models/user.model");
 const ObjectId = require("mongoose").Types.ObjectId;
 const { getInRange } = require("../../helpers/getInRange.helper");
 const { updateValue } = require("../../helpers/updateValue.helper");
+const { addHistory } = require("../../helpers/addHistory.helper")
 
 // get all trees
 module.exports.getTrees = async (req, res) => {
@@ -52,6 +53,7 @@ module.exports.buyTree = async (req, res) => {
         { "_id": ObjectId(req.body.newOwnerId) }
     )
 
+
     if (!originalTree.locked) {
         if (originalTree.currentOwner != req.body.newOwnerId) {
             if (newOwner.logs >= originalTree.value) {
@@ -73,6 +75,9 @@ module.exports.buyTree = async (req, res) => {
                 const inRange = await getInRange(originalTree);
                 await updateValue(originalTree, newOwner, inRange);
 
+                // add history (Buy)
+                await addHistory("Buy", req.params.id, req.body.newOwnerId);
+
                 if (originalTree.currentOwner != '') {
                     // add pastOwner
                     await TreeModel.updateOne(
@@ -88,7 +93,8 @@ module.exports.buyTree = async (req, res) => {
                             $pull: { trees: req.params.id }
                         })
 
-                    // add history (Buy + Lost)
+                    // add history (Lost)
+                    await addHistory("Lost", req.params.id, originalTree.currentOwner);
 
                 }
 
@@ -141,6 +147,9 @@ module.exports.lockTree = async (req, res) => {
                     {
                         $inc: { logs: - tree.lockPrice }
                     });
+
+                // add history
+                await addHistory("Lock", req.params.id, req.body.ownerId);
 
                 res.status(200).json({ message: 'Tree locked ! 🔒' })
 
