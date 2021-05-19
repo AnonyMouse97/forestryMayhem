@@ -1,20 +1,23 @@
 const UserModel = require("../models/user.model")
 
-module.exports.divideLogs = async (res) => {
+module.exports.divideLogs = async () => {
     try {
-        const divideLogs = await UserModel.updateMany(
-            {},
-            { $mul: { logs: 0.5 } }
-        )
+        const users = await UserModel.find({}, { logs: 1 });
 
-        res.status(200).send({ message: "Half of your logs have been burned down..." })
-
+        for (let user of users) {
+            const logs = Math.floor(user.logs / 2);
+            await UserModel.findOneAndUpdate(
+                { "_id": user._id },
+                { $set: { "logs": logs } },
+                { useFindAndModify: false }
+            )
+        }
     } catch (err) {
         console.log(err)
     }
 }
 
-module.exports.addLogs = async (res) => {
+module.exports.addLogs = async () => {
     try {
         const addLogs = await UserModel.aggregate([
             {
@@ -34,10 +37,12 @@ module.exports.addLogs = async (res) => {
             }
         ])
 
+
         for (let user of addLogs) {
             await UserModel.findOneAndUpdate(
                 { "_id": user._id },
-                { $inc: { "logs": user.logs } }
+                { $inc: { "logs": user.logs } },
+                { useFindAndModify: false }
             )
         }
 

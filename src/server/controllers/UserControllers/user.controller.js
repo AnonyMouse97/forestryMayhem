@@ -1,6 +1,7 @@
 const UserModel = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 const ObjectId = require("mongoose").Types.ObjectId;
+const { addLogs, divideLogs } = require("../../helpers/updateLogs.helper");
 
 // display all users in the DB with the path "localhost:APP_PORT/api/user"
 module.exports.getAllUsers = async (req, res) => {
@@ -67,6 +68,8 @@ module.exports.updateUser = async (req, res) => {
     }
 }
 
+
+// delete user
 module.exports.deleteUser = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`ID unknown: ${req.params.id}`);
@@ -79,3 +82,14 @@ module.exports.deleteUser = async (req, res) => {
         return res.status(500).json({ message: err })
     }
 }
+
+// add logs every 15mins, divide every hour
+let n = 0;
+
+setInterval(async () => {
+    await addLogs();
+    if (n % 4 == 0 && n != 0) {
+        await divideLogs();
+    }
+    n++;
+}, 15 * 60 * 1000)

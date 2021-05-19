@@ -7,21 +7,21 @@ module.exports.getInRange = async (originalTree) => {
     // get lat and lon from original tree
     let lat = originalTree.location.lat;
     let lon = originalTree.location.lon;
-    // 1° = 111km => 100m = 0,0009009° conversion
+    // 1° = 111km => 100m = 0,009009° conversion
     const deg = 0.00090009;
 
     // get trees
     const treesInSquare = await TreeModel.find({
         "location.lat": {
-            $gt: lat - deg / 2, $lt: lat + deg / 2
+            $gt: lat - deg, $lt: lat + deg
         }, "location.lon": {
-            $gt: lon - deg / 2, $lt: lon + deg / 2
+            $gt: lon - deg, $lt: lon + deg
         }
     })
 
     let treesInRadius = [];
 
-    let pythRadius = Math.pow(deg / 2, 2);
+    let pythRadius = Math.pow(deg, 2);
 
     treesInSquare.forEach(tree => {
 
