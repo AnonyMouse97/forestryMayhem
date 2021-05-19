@@ -11,6 +11,7 @@
 const webpack = require("webpack");
 const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = env => {
     const plugins = [
@@ -25,7 +26,10 @@ module.exports = env => {
         }),
     ];
 
-    let optimization = {};
+    let optimization = {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    };
 
     if (env !== "dev") {
         optimization = {
@@ -58,7 +62,7 @@ module.exports = env => {
                 ? "cheap-module-eval-source-map"
                 : "hidden-source-map",
         context: resolve(__dirname, "./src/client"),
-        entry: ["./app.js"],
+        entry: ["./index.js"],
         module: {
             rules: [
                 {
@@ -95,6 +99,7 @@ module.exports = env => {
                                             legacy: true,
                                         },
                                     ],
+                                    "@babel/plugin-syntax-import-meta",
                                     "@babel/plugin-proposal-object-rest-spread",
                                     [
                                         "@babel/plugin-proposal-class-properties",
