@@ -7,5 +7,9 @@ module.exports.getLogs = async () => {
     }]);
     const totalUsers = await UserModel.find({}, { userName: 1, _id: 0 }).countDocuments();
 
-    return totalLogs[0].total / totalUsers;
+    if (totalUsers == 0) {
+        return 2000
+    } else {
+        return totalLogs[0].total / totalUsers;
+    }
 }

@@ -16,7 +16,7 @@ module.exports.divideLogs = async (res) => {
 
 module.exports.addLogs = async (res) => {
     try {
-        const test = await UserModel.aggregate([
+        const addLogs = await UserModel.aggregate([
             {
                 $lookup:
                 {
@@ -29,11 +29,17 @@ module.exports.addLogs = async (res) => {
             {
                 $project:
                 {
-                    userName: 1,
                     logs: { $sum: "$treeDetail.value" }
                 }
             }
         ])
+
+        for (let user of addLogs) {
+            await UserModel.findOneAndUpdate(
+                { "_id": user._id },
+                { $inc: { "logs": user.logs } }
+            )
+        }
 
     } catch (err) {
         console.log(err)

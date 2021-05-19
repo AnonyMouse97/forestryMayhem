@@ -1,8 +1,12 @@
 const UserModel = require("../../models/user.model");
 
 module.exports.getMostLogs = async (req, res) => {
-    const mostLogs = await UserModel.find({}).sort({ logs: -1 }).limit(5)
-    res.status(200).json(mostLogs);
+    try {
+        const mostLogs = await UserModel.find({}).sort({ logs: -1 }).limit(5)
+        res.status(200).json(mostLogs);
+    } catch (err) {
+        res.status(500).json(err)
+    }
 }
 
 module.exports.getMostTrees = async (req, res) => {
