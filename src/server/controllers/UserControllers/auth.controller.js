@@ -1,7 +1,10 @@
 const UserModel = require("../../models/user.model");
 const TreeModel = require("../../models/tree.model");
 const { getLogs } = require("../../helpers/getLogs.helper");
+const { createToken } = require("../../helpers/createToken.helper")
 
+
+//sign Up request
 module.exports.signUp = async (req, res) => {
     const { userName, password, email, color, profilePic } = req.body;
     try {
@@ -53,3 +56,23 @@ module.exports.signUp = async (req, res) => {
         res.status(200).send({ err });
     }
 };
+
+// sign in request
+module.exports.signIn = async (req, res) => {
+    const { email, password } = req.body;
+    const time = 25 * 60 * 100;
+    try {
+        const user = await UserModel.login(email, password);
+        const token = createToken(user.node, time);
+        res.cookie('jwt', token, { httpOnly: true, time });
+        res.status(200).json({ user: user._id });
+    } catch (err) {
+        res.status(500).json({ message: "Wrong email or password" })
+    }
+}
+
+
+// logout request
+module.exports.logout = (req, res) => {
+
+}
