@@ -12,16 +12,29 @@ import path from "path";
 import mongoose from "mongoose";
 import { use } from "./routes/user.routes";
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 
 // dotenv
 require("dotenv").config();
+const { APP_PORT, ATLAS_URI, CLIENT_URL } = process.env;
 
 // declare express
 const app = express();
-const { APP_PORT, ATLAS_URI } = process.env;
 
-// cookie parser
+// use cors and add parameters
+const corsOptions = {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+    'allowedHeaders': ['sessionId', 'Content-Type'],
+    'exposedHeaders': ['sessionId'],
+    'methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'preflightContinue': false
+}
+
+app.use(cors(corsOptions));
+
+// use cookie parser
 app.use(cookieParser());
 
 // check user middleware
