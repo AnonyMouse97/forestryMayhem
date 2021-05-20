@@ -1,4 +1,4 @@
-/* becodeorg/TimberMayhem
+/* TimberMayhem
  *
  * /src/server/index.js - Server entry point
  *
@@ -11,16 +11,29 @@ import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import { use } from "./routes/user.routes";
+const cookieParser = require("cookie-parser");
 
+
+// dotenv
 require("dotenv").config();
 
+// declare express
 const app = express();
 const { APP_PORT, ATLAS_URI } = process.env;
 
+// cookie parser
+app.use(cookieParser());
+
+// check user middleware
+const { checkUser, requireAuth } = require("./middleware/auth.middleware")
+
+// routes require
 const userRoutes = require("./routes/user.routes");
 const treeRoutes = require("./routes/tree.routes");
 const leaderRoutes = require("./routes/leader.routes")
 const historyRoutes = require("./routes/history.routes")
+
+
 
 // connection to db
 mongoose
@@ -35,6 +48,13 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "../../bin/client")));
+
+// jwt check
+app.get("*", checkUser);
+app.get("/jwtid", requireAuth, (req, res) => {
+    res.status(200).send(res.locals.user._id)
+});
+
 
 //routes
 app.use("/api/user", userRoutes);
@@ -51,7 +71,7 @@ app.get('/*', function (req, res) {
     })
 })
 
-// listening on port
+// server
 app.listen(APP_PORT, () =>
     console.log(`🚀 Server is listening on port ${APP_PORT}.`),
 );

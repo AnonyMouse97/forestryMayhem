@@ -1,7 +1,8 @@
 const UserModel = require("../../models/user.model");
 const TreeModel = require("../../models/tree.model");
 const { getLogs } = require("../../helpers/getLogs.helper");
-const { createToken } = require("../../helpers/createToken.helper")
+const { createToken } = require("../../helpers/createToken.helper");
+const { signUpErrors, signInErrors } = require("../../helpers/errors.helper");
 
 
 //sign Up request
@@ -52,8 +53,8 @@ module.exports.signUp = async (req, res) => {
 
         res.status(201).json({ user: user._id });
     } catch (err) {
-        console.log(err);
-        res.status(200).send({ err });
+        const errors = signUpErrors(err);
+        res.status(200).send({ errors })
     }
 };
 
@@ -67,12 +68,14 @@ module.exports.signIn = async (req, res) => {
         res.cookie('jwt', token, { httpOnly: true, time });
         res.status(200).json({ user: user._id });
     } catch (err) {
-        res.status(500).json({ message: "Wrong email or password" })
+        const errors = signInErrors(err);
+        res.status(200).send({ errors });
     }
 }
 
 
 // logout request
 module.exports.logout = (req, res) => {
-
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.redirect("/");
 }
