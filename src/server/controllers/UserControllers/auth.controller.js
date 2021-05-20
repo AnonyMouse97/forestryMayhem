@@ -60,10 +60,10 @@ module.exports.signUp = async (req, res) => {
 // sign in request
 module.exports.signIn = async (req, res) => {
     const { email, password } = req.body;
-    const time = 25 * 60 * 100;
+    const time = 25 * 60 * 1000;
     try {
         const user = await UserModel.login(email, password);
-        const token = createToken(user.node, time);
+        const token = await createToken(user.node, time);
         res.cookie('jwt', token, { httpOnly: true, time });
         res.status(200).json({ user: user._id });
     } catch (err) {
