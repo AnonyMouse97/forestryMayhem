@@ -11,8 +11,9 @@
     "build:server": "npx babel src/server -s --out-dir bin/server",
     "work:server": "npx babel src/server -s --watch --verbose --out-dir bin/server",
     "build:client": "npx webpack --progress --profile --colors",
-    "work:client": "npx webpack --env=dev --watch",
-    "build": "npm run build:server && npm run build:client"
+    "work:client": "npx webpack --watch",
+    "build": "npm run build:server && npm run build:client",
+    "hot": "webpack serve --port 12345 --open"
   },
   "lint-staged": {
     "*.js": [
@@ -25,6 +26,8 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.14.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.14.2",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.14.3",
     "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.9.4",
@@ -43,7 +46,8 @@
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.1.2",
     "webpack": "^5.37.0",
-    "webpack-cli": "^4.7.0"
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -56,8 +60,11 @@
     "leaflet": "^1.7.1",
     "mongoose": "^5.12.7",
     "react": "^17.0.2",
+    "react-async": "^10.0.1",
     "react-dom": "^17.0.2",
     "react-leaflet": "^3.2.0",
+    "react-leaflet-markercluster": "*",
+    "react-router-dom": "^5.2.0",
     "validator": "^13.6.0"
   }
 }

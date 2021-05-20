@@ -1,10 +1,10 @@
 import * as React from "react";
-import ViewMap from "./map";
+import Routes from "./routes"
 
 const App = () => {
     return (
         <div>
-            <ViewMap />
+            <Routes />
         </div>
     )
 }
