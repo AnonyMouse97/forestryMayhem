@@ -86,7 +86,7 @@ module.exports = () => {
             new webpack.DefinePlugin(envKeys),
             new HtmlWebpackPlugin({
                 template: './index.html',
-                favicon: './src/public/img/favicon/lumberjack.png'
+                favicon: './public/img/favicon/lumberjack.png'
             }),
         ],
         optimization: {
