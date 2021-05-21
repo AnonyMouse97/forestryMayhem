@@ -1,8 +1,8 @@
 {
-  "name": "@becode/mwenbwa",
+  "name": "@becode/forestry-mayhem",
   "version": "0.0.1",
   "description": "A web-based game of conquests… and trees",
-  "author": "leny <leny@becode.org>",
+  "author": "Samuel & Charlotte",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -12,8 +12,7 @@
     "work:server": "npx babel src/server -s --watch --verbose --out-dir bin/server",
     "build:client": "npx webpack --progress --profile --colors",
     "work:client": "npx webpack --watch",
-    "build": "npm run build:server && npm run build:client",
-    "hot": "webpack serve --port 12345 --open"
+    "build": "npm run build:server && npm run build:client"
   },
   "lint-staged": {
     "*.js": [
