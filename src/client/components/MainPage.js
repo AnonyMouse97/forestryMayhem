@@ -1,7 +1,8 @@
-import React from 'react'
-import { useAsync } from 'react-async'
-import Login from './Log/login'
-import ViewMap from './map'
+import React from "react"
+import { useAsync } from "react-async"
+import ViewMap from "./Map/map"
+import ProfileBar from "./user/Profile"
+
 
 
 const loadAllTrees = async () => {
@@ -11,7 +12,6 @@ const loadAllTrees = async () => {
 }
 
 const MainPage = () => {
-
     const { data, error, isLoading } = useAsync({ promiseFn: loadAllTrees })
     if (isLoading) {
         return "Loading"
@@ -22,7 +22,7 @@ const MainPage = () => {
     if (data) {
         return (
             <div>
-                <Login />
+                <ProfileBar />
                 <ViewMap data={data} />
             </div>
         )

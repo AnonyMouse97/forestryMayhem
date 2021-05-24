@@ -48,7 +48,6 @@ module.exports.signUp = async (req, res) => {
                 { _id: tree._id },
                 { $set: newUser },
             );
-            console.log(res)
         }
 
         res.status(201).json({ user: user._id });
@@ -64,7 +63,7 @@ module.exports.signIn = async (req, res) => {
     const time = 25 * 60 * 1000;
     try {
         const user = await UserModel.login(email, password);
-        const token = await createToken(user.node, time);
+        const token = await createToken(user._id, time);
         res.cookie('jwt', token, { httpOnly: true, time });
         res.status(200).json({ user: user._id });
     } catch (err) {

@@ -5,3 +5,7 @@
 .leaflet-container {
     height: 98vh;
 }
+
+.ProfileBar-pic {
+    width: 25%;
+}

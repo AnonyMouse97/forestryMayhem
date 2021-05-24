@@ -7,6 +7,7 @@ const SignIn = () => {
 
     const handleLogin = (e) => {
         e.preventDefault()
+
         const emailError = document.querySelector('.email-error')
         const passwordError = document.querySelector('.password-error')
 
@@ -20,7 +21,7 @@ const SignIn = () => {
             }
         }).then((res) => {
             if (res.data.errors) {
-                emailError.innerHTML = res.data.err
+                emailError.innerHTML = res.data.errors.email
                 passwordError.innerHTML = res.data.errors.password
             } else {
                 window.location = '/'

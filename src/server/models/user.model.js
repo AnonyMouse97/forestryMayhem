@@ -41,19 +41,17 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.statics.login = async function (email, password) {
-    try {
-        const user = await this.findOne({ email });
-        if (user) {
-            const auth = await bcrypt.compare(password, user.password);
-            if (auth) {
-                return user;
-            }
-            throw Error('incorect password');
+
+    const user = await this.findOne({ email });
+    if (user) {
+        const auth = await bcrypt.compare(password, user.password);
+        if (auth) {
+            return user;
         }
-        throw Error('incorect email')
-    } catch (err) {
-        console.log(err)
+        throw Error('incorrect password');
     }
+    throw Error('incorrect email')
+
 }
 
 
