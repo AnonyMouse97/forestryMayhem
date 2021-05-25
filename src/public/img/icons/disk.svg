@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" version="1.1" width="512" height="512" x="0" y="0" viewBox="0 0 480 480" style="enable-background:new 0 0 512 512" xml:space="preserve" class="">
+  <g>
+    <path xmlns="http://www.w3.org/2000/svg" d="m368 8v120c0 4.417969-3.582031 8-8 8h-248c-4.417969 0-8-3.582031-8-8v-120h-32v16c0 4.417969-3.582031 8-8 8h-16c-4.417969 0-8-3.582031-8-8v-16h-16c-8.835938 0-16 7.164062-16 16v432c0 8.835938 7.164062 16 16 16h432c8.835938 0 16-7.164062 16-16v-368l-80-80zm-296 432h-32v-24h32zm304-8c0 4.417969-3.582031 8-8 8h-256c-4.417969 0-8-3.582031-8-8v-208c0-4.417969 3.582031-8 8-8h256c4.417969 0 8 3.582031 8 8zm0 0" fill="#a55eea" data-original="#ffde59" style=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m392 8h-24l80 80v368c0 8.835938-7.164062 16-16 16h24c8.835938 0 16-7.164062 16-16v-368zm0 0" fill="#8854d0" data-original="#dfc24e" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m40 416h32v24h-32zm0 0" fill="#ffffff" data-original="#ffffff" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m112 136h60.800781c-8.835937 0-16-7.164062-16-16v-96c0-8.835938 7.164063-16 16-16h-68.800781v120c0 4.417969 3.582031 8 8 8zm0 0" fill="#50412e" data-original="#50412e" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m156.800781 120v-96c0-8.835938 7.164063-16 16-16h-16c-8.835937 0-16 7.164062-16 16v96c0 8.835938 7.164063 16 16 16h16c-8.835937 0-16-7.164062-16-16zm0 0" fill="#282117" data-original="#282117" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m112 216h256c4.417969 0 8 3.582031 8 8v208c0 4.417969-3.582031 8-8 8h-256c-4.417969 0-8-3.582031-8-8v-208c0-4.417969 3.582031-8 8-8zm0 0" fill="#f7b731" data-original="#b4d8f4" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m156.800781 24v96c0 8.835938 7.164063 16 16 16h187.199219c4.417969 0 8-3.582031 8-8v-120h-195.199219c-8.835937 0-16 7.164062-16 16zm163.199219 8" fill="#dadadc" data-original="#dadadc" style=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m352 8v104c0 4.417969-3.582031 8-8 8h-187.199219c0 8.835938 7.164063 16 16 16h187.199219c4.417969 0 8-3.582031 8-8v-120zm0 0" fill="#a4a4a5" data-original="#a4a4a5" style="" class=""/>
+    <path xmlns="http://www.w3.org/2000/svg" d="m136 232h208c4.417969 0 8 3.582031 8 8v176c0 4.417969-3.582031 8-8 8h-208c-4.417969 0-8-3.582031-8-8v-176c0-4.417969 3.582031-8 8-8zm0 0" fill="#fed330" data-original="#c5e1f6" style="" class=""/>
+    <g xmlns="http://www.w3.org/2000/svg" fill="#231f20">
+      <path d="m395.3125 0h-331.3125v24h-16v-24h-24c-13.253906 0-24 10.746094-24 24v432c0 13.253906 10.746094 24 24 24h432c13.253906 0 24-10.746094 24-24v-371.3125zm-35.3125 16v112h-187.199219c-4.417969 0-8-3.582031-8-8v-96c0-4.417969 3.582031-8 8-8zm-209.726562 0c-.949219 2.5625-1.445313 5.269531-1.472657 8v96c.027344 2.730469.523438 5.4375 1.472657 8h-38.273438v-112zm313.726562 440c0 4.417969-3.582031 8-8 8h-432c-4.417969 0-8-3.582031-8-8v-432c0-4.417969 3.582031-8 8-8h8v8c0 8.835938 7.164062 16 16 16h16c8.835938 0 16-7.164062 16-16v-8h16v112c0 8.835938 7.164062 16 16 16h248c8.835938 0 16-7.164062 16-16v-112h12.6875l75.3125 75.3125zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m32 448h48v-40h-48zm16-24h16v8h-16zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m368 208h-256c-8.835938 0-16 7.164062-16 16v208c0 8.835938 7.164062 16 16 16h256c8.835938 0 16-7.164062 16-16v-208c0-8.835938-7.164062-16-16-16zm-256 224v-208h256v208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m312 32h16v80h-16zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 240h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 272h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 304h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 336h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 368h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+      <path d="m136 400h208v16h-208zm0 0" fill="#231f20" data-original="#231f20" style="" class=""/>
+    </g>
+  </g>
+</svg>
