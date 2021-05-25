@@ -59,6 +59,7 @@
     "fantasy-name-generator": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
+    "leaflet-canvas-marker": "^0.2.0",
     "mongoose": "^5.12.7",
     "react": "^17.0.2",
     "react-async": "^10.0.1",
