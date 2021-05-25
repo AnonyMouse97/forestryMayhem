@@ -1,7 +1,7 @@
 import React from "react"
 import { useAsync } from "react-async"
 import ViewMap from "./Map/map"
-import ProfileBar from "./user/Profile"
+import ProfileBar from "./user/ProfileBar"
 
 
 
