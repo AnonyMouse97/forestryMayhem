@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import "leaflet-canvas-marker";
+import CustomPopup from "../components/Map/popup";
 import L from "leaflet";
 
 import tree1 from '../../public/img/trees/tree001.svg';
@@ -26,6 +27,7 @@ export default function LeafletCanvasMarker({ trees }) {
         ciLayer.addOnClickListener(function (e, data) {
             console.log(trees.length);
         });
+
         /* ciLayer.addOnHoverListener(function (e, data) {
             console.log(data[0].data._leaflet_id);
         }); */
@@ -40,19 +42,21 @@ export default function LeafletCanvasMarker({ trees }) {
 
         let markers = [];
 
-        for (let i = 0; i < trees.length; i++) {
+        for (let tree of trees) {
+
+            let id = tree._id;
 
             let icon = L.icon({
                 iconUrl: treeIcon(),
-                iconSize: [32, 32],
-                iconAnchor: [16, 32],
-                popupAnchor: [0, -32]
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [0, -24]
             });
 
             let marker = L.marker(
-                [trees[i].location.lat, trees[i].location.lon],
+                [tree.location.lat, tree.location.lon],
                 { icon: icon }
-            ).bindPopup("I Am " + i);
+            ).bindPopup(id);
 
             markers.push(marker);
         }
@@ -63,3 +67,67 @@ export default function LeafletCanvasMarker({ trees }) {
 
     return null;
 }
+
+
+
+/* var centerOfUSALatLong = [37.09024, -95.712891];    // center of USA (lat,long)
+var zoomLevelShowingUSA = 4;
+
+var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+});
+
+
+var latlng = L.latLng(centerOfUSALatLong[0], centerOfUSALatLong[1]);
+
+
+var southWest = L.latLng(0, -180),
+
+    northEast = L.latLng(60.239, -43.945),  // bottom of greenland
+
+    bounds = L.latLngBounds(southWest, northEast);
+
+var map = L.map('map', {center: latlng,
+    zoom: zoomLevelShowingUSA,
+    minZoom: zoomLevelShowingUSA-1,
+    maxBounds: bounds,
+    layers: [tiles]
+});
+
+var markers = L.markerClusterGroup();
+
+function populate() {
+    for (var i = 0; i < 10; i++) {
+        var bounds = map.getBounds();
+        var southWest = bounds.getSouthWest();
+        var northEast = bounds.getNorthEast();
+        var lngSpan = northEast.lng - southWest.lng;
+        var latSpan = northEast.lat - southWest.lat;
+        var latR = southWest.lat + latSpan * Math.random();
+        var lngR = southWest.lng + lngSpan * Math.random();
+
+        var myIcon = L.divIcon({
+            iconSize: new L.Point(50, 50),
+            html: String(i)
+        });
+
+        var m = L.marker(L.latLng(latR,lngR), {icon: myIcon});
+        markers.addLayer(m);
+    }
+    return false;
+}
+
+var MyLayer = L.CanvasLayer.extend({
+    render: function() {
+        var canvas = this.getCanvas();
+        var ctx = canvas.getContext('2d');
+        // render
+    }
+});
+// create and add to the map
+var layer = new MyLayer();
+layer.addTo(map);
+
+populate();
+map.addLayer(markers); */
