@@ -1,6 +1,7 @@
 import React from "react"
 import { useAsync } from "react-async"
 import ViewMap from "./Map/map"
+import Topbar from "./Topbar/Topbar"
 import ProfileBar from "./user/ProfileBar"
 
 
@@ -22,6 +23,7 @@ const MainPage = () => {
     if (data) {
         return (
             <div>
+                <Topbar />
                 <ProfileBar />
                 <ViewMap data={data} />
             </div>
