@@ -48,9 +48,9 @@ export default function LeafletCanvasMarker({ trees }) {
 
             let icon = L.icon({
                 iconUrl: treeIcon(),
-                iconSize: [24, 24],
-                iconAnchor: [12, 24],
-                popupAnchor: [0, -24]
+                iconSize: [48, 48],
+                iconAnchor: [24, 48],
+                popupAnchor: [0, -48]
             });
 
             let marker = L.marker(
@@ -67,67 +67,3 @@ export default function LeafletCanvasMarker({ trees }) {
 
     return null;
 }
-
-
-
-/* var centerOfUSALatLong = [37.09024, -95.712891];    // center of USA (lat,long)
-var zoomLevelShowingUSA = 4;
-
-var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-});
-
-
-var latlng = L.latLng(centerOfUSALatLong[0], centerOfUSALatLong[1]);
-
-
-var southWest = L.latLng(0, -180),
-
-    northEast = L.latLng(60.239, -43.945),  // bottom of greenland
-
-    bounds = L.latLngBounds(southWest, northEast);
-
-var map = L.map('map', {center: latlng,
-    zoom: zoomLevelShowingUSA,
-    minZoom: zoomLevelShowingUSA-1,
-    maxBounds: bounds,
-    layers: [tiles]
-});
-
-var markers = L.markerClusterGroup();
-
-function populate() {
-    for (var i = 0; i < 10; i++) {
-        var bounds = map.getBounds();
-        var southWest = bounds.getSouthWest();
-        var northEast = bounds.getNorthEast();
-        var lngSpan = northEast.lng - southWest.lng;
-        var latSpan = northEast.lat - southWest.lat;
-        var latR = southWest.lat + latSpan * Math.random();
-        var lngR = southWest.lng + lngSpan * Math.random();
-
-        var myIcon = L.divIcon({
-            iconSize: new L.Point(50, 50),
-            html: String(i)
-        });
-
-        var m = L.marker(L.latLng(latR,lngR), {icon: myIcon});
-        markers.addLayer(m);
-    }
-    return false;
-}
-
-var MyLayer = L.CanvasLayer.extend({
-    render: function() {
-        var canvas = this.getCanvas();
-        var ctx = canvas.getContext('2d');
-        // render
-    }
-});
-// create and add to the map
-var layer = new MyLayer();
-layer.addTo(map);
-
-populate();
-map.addLayer(markers); */
