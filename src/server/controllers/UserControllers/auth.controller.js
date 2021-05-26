@@ -24,8 +24,19 @@ module.exports.signUp = async (req, res) => {
         //request to getLogs
         const freeLogs = Math.floor(await getLogs());
 
-        // [#fc5c65, #fd9644, #fed330, #26de81, #2bcbba, #45aaf2, #4b7bec, #a55eea]
+
+        // standard color if trying to cheat
+        const standardColors = ["#fc5c65", "#fd9644", " #fed330", "#26de81", "#2bcbba", "#45aaf2", " #4b7bec", "#a55eea"]
+        if (!standardColors.includes(color)) {
+            color = "#fc5c65";
+        }
+
         //const randPic = `./src/public/img/profilePics/default/default${Math.floor(Math.random() * 6)}.png`;
+        const defaultPics = ["default1.png", "default2.png", "default3.png", "default4.png", "default5.png", "default6.png",]
+        if (!defaultPics.includes(profilePic)) {
+            profilePic = `default${Math.floor(Math.random() * 6)}.png`
+        }
+
 
         // create the user
         const user = await UserModel.create({
