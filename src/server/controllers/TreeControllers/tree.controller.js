@@ -164,7 +164,12 @@ module.exports.lockTree = async (req, res) => {
     }
 }
 
-
+/* Patch - Comment
+ *
+ *  Expecting :
+ *  tree id IN url AS /:id
+ *
+ */
 module.exports.addComment = async (req, res) => {
     if (!ObjectId.isValid(req.params.id)) {
         return res.status(400).send(`ID unknown: ${req.params.id}`);
@@ -181,5 +186,45 @@ module.exports.addComment = async (req, res) => {
         )
     } catch (err) {
         return res.status(500).json({ message: err })
+    }
+}
+
+/* Put - Lock
+ *
+ *  Expecting :
+ *  tree id IN url AS /:id
+ *  user id IN body AS ownerId
+ *
+ */
+module.exports.getLogsByMinutes = async (req, res) => {
+    if (!ObjectId.isValid(req.params.id)) {
+        return res.status(400).send(`ID unknown: ${req.params.id}`);
+    }
+
+    try {
+        const treeLogs = await UserModel.aggregate([
+            { $match: { _id: ObjectId(req.params.id) } },
+            {
+                $lookup:
+                {
+                    from: "trees",
+                    localField: "trees",
+                    foreignField: "_id",
+                    as: "treeDetail"
+                }
+            },
+            {
+                $project:
+                {
+                    logs: { $sum: "$treeDetail.value" },
+                    _id: 0
+                }
+            }
+        ])
+
+        res.status(200).json(treeLogs);
+
+    } catch (err) {
+        console.log(err)
     }
 }
