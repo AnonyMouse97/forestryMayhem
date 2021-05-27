@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import ReactDOMServer from "react-dom/server";
@@ -6,13 +5,6 @@ import "leaflet-canvas-marker";
 import CustomPopup from "../components/Map/popup";
 import L from "leaflet";
 import axios from 'axios'
-=======
-import { useEffect } from "react";
-import { useMap } from "react-leaflet";
-import "leaflet-canvas-marker";
-import CustomPopup from "../components/Map/popup";
-import L from "leaflet";
->>>>>>> e8979a47ceb57090ee8c230bf03e1be89c52c0c1
 
 import tree1 from '../../public/img/trees/tree001.svg';
 import tree2 from '../../public/img/trees/tree002.svg';
@@ -28,20 +20,16 @@ import tree10 from '../../public/img/trees/tree010.svg';
 export default function LeafletCanvasMarker({ trees }) {
     const map = useMap();
 
-<<<<<<< HEAD
 
     //popup logic
     //const [name, setName] = useState("test");
 
-=======
->>>>>>> e8979a47ceb57090ee8c230bf03e1be89c52c0c1
     useEffect(() => {
         if (!map) return;
 
 
         let ciLayer = L.canvasIconLayer({}).addTo(map);
 
-<<<<<<< HEAD
 
 
         /* ciLayer.addOnClickListener(function (e, data) {
@@ -58,14 +46,6 @@ export default function LeafletCanvasMarker({ trees }) {
 
         /* ciLayer.addOnHoverListener(function (e, data) {
             console.log(data.data._leaflet_id);
-=======
-        ciLayer.addOnClickListener(function (e, data) {
-            console.log(trees.length);
-        });
-
-        /* ciLayer.addOnHoverListener(function (e, data) {
-            console.log(data[0].data._leaflet_id);
->>>>>>> e8979a47ceb57090ee8c230bf03e1be89c52c0c1
         }); */
 
         const treeIcon = () => {
@@ -89,7 +69,6 @@ export default function LeafletCanvasMarker({ trees }) {
                 popupAnchor: [0, -48]
             });
 
-<<<<<<< HEAD
             /* const popupContentNode = <CustomPopup id={id} />;
             const popupContentHtml = ReactDOMServer.renderToString(popupContentNode); */
 
@@ -100,12 +79,6 @@ export default function LeafletCanvasMarker({ trees }) {
                 <CustomPopup
                     id={id} />))
 
-=======
-            let marker = L.marker(
-                [tree.location.lat, tree.location.lon],
-                { icon: icon }
-            ).bindPopup(id);
->>>>>>> e8979a47ceb57090ee8c230bf03e1be89c52c0c1
 
             markers.push(marker);
         }
