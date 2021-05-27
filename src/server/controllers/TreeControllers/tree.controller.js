@@ -1,3 +1,6 @@
+const fs = require('fs');
+const util = require('util');
+const path = require('path');
 const TreeModel = require("../../models/tree.model");
 const UserModel = require("../../models/user.model");
 const ObjectId = require("mongoose").Types.ObjectId;
@@ -7,12 +10,43 @@ const { addHistory } = require("../../helpers/addHistory.helper")
 
 // get all trees
 module.exports.getTrees = async (req, res) => {
-    try {
+    //request to local file
+    const readFile = util.promisify(fs.readFile);
+    const file = path.join(__dirname, '../../../../data', 'arbustum_loc.json');
+
+
+    const read = async () => {
+        try {
+            const data = await readFile(file, 'utf8');
+            const trees = JSON.parse(data);
+            let formatTreesList = []
+
+
+            trees.forEach(tree => {
+                let formatTree = {
+                    _id: tree._id.$oid,
+                    location: tree.location
+                }
+                formatTreesList.push(formatTree);
+            })
+
+            return formatTreesList;
+
+        } catch (err) {
+            console.log('Error parsing JSON string : ', err);
+        }
+    }
+
+    const trees = await read();
+    res.status(200).json(trees);
+
+    // old request to db
+    /* try {
         const trees = await TreeModel.find({}, { location: 1 });
         res.status(200).json(trees);
     } catch (err) {
         res.status(500).json({ message: `Could not find. Error : ${err}` });
-    }
+    } */
 }
 
 
