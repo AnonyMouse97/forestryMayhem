@@ -17,11 +17,9 @@ const ViewMap = ({ data }) => {
                 <TileLayer
                     attribution='Map Data &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> Imagery  &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
                     url="https://api.mapbox.com/styles/v1/anonymouse97/ckp4eqckf01ij17ldyl6kz9iq/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW5vbnltb3VzZTk3IiwiYSI6ImNrcDRlbjQ5YTA2MHoycHF0bDZ3OGwzd2UifQ.Kes9Z4RYBRVOboBqFs1kEw"
-
                     minZoom={17}
                     maxZoom={21}
                     maxNativeZoom={18}
-
                 />
                 <LeafletCanvasMarker trees={data} />
             </MapContainer>

@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Popup } from 'react-leaflet'
 import axios from 'axios'
 
-const CustomPopup = ({ id }) => {
+/* const CustomPopup = ({ id }) => {
+
+
     const [isLoaded, setIsLoaded] = useState(false)
     const [species, setSpecies] = useState("")
     const [name, setName] = useState("")
@@ -70,6 +72,34 @@ const CustomPopup = ({ id }) => {
                     </div>)}
         </Popup>
     )
+} */
+
+const CustomPopup = ({ id }) => {
+
+    const [isLoaded, setIsLoaded] = useState(false)
+
+    const [name, setName] = useState("random")
+
+    const fetchOwner = async (ownerId) => {
+        const res = await axios.get(`${process.env.API_URL}api/user/${ownerId}`)
+        setName(res.data[0].userName);
+        setIsLoaded(true)
+    }
+
+    const handleOpen = async () => {
+        await fetchOwner({ id })
+    }
+
+    const handleClose = () => {
+        setIsLoaded(false)
+    }
+
+    return (
+        <div>
+            <p> Mon id est : {id}</p>
+            <p> mon nom est : {name} </p>
+        </div>
+    )
 }
 
-export default CustomPopup
+export default CustomPopup;
