@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Popup } from 'react-leaflet'
 import axios from 'axios'
+import { UidContext } from '../AppContext'
 
 const CustomPopup = ({ id }) => {
+    const uid = useContext(UidContext)
+
     const [isLoaded, setIsLoaded] = useState(false)
     const [species, setSpecies] = useState("")
     const [name, setName] = useState("")
     const [wikiLink, setWikiLink] = useState("")
     const [currentOwner, setCurrentOwner] = useState("")
+    const [ownerId, setOwnerId] = useState("")
     const [value, setValue] = useState("")
     const [isLocked, setIsLocked] = useState(false)
     const [lockValue, setLockValue] = useState("")
@@ -22,10 +26,10 @@ const CustomPopup = ({ id }) => {
             }).catch(err => {
                 console.log(err)
             })
-
     }
 
     const handleOpen = () => {
+
         axios.get(`${process.env.API_URL}api/tree/${id}`)
             .then(res => {
 
@@ -41,6 +45,7 @@ const CustomPopup = ({ id }) => {
                 if (res.data.currentOwner == "") {
                     setIsLoaded(true)
                 } else {
+                    setOwnerId(res.data.currentOwner)
                     fetchOwner(res.data.currentOwner)
                 }
             }).catch(err => {
@@ -50,6 +55,28 @@ const CustomPopup = ({ id }) => {
 
     const handleClose = () => {
         setIsLoaded(false)
+    }
+
+    const buyTree = async () => {
+        await axios({
+            method: "put",
+            url: `${process.env.API_URL}api/tree/buy/${id}`,
+            data: {
+                newOwnerId: uid
+            }
+        })
+        handleOpen()
+    }
+
+    const lockTree = async () => {
+        await axios({
+            method: "put",
+            url: `${process.env.API_URL}api/tree/lock/${id}`,
+            data: {
+                ownerId: uid
+            }
+        })
+
     }
 
     return (
@@ -65,7 +92,13 @@ const CustomPopup = ({ id }) => {
                             <a href={wikiLink} target="_blank" rel="noreferrer noopener">Wanna know more about this tree ?</a>
                             <h4>Name: {name}</h4>
                             <p>{currentOwner != "" ? `Owner: ${currentOwner}` : "This tree has no owner!"}</p>
-                            <button>{currentOwner != "" ? `Steal this tree to ${currentOwner} for ${value} £ogs` : `Buy this tree for ${value} £ogs`}</button>
+                            {isLocked ?
+                                "This tree is locked"
+                                : uid == ownerId ?
+                                    <button onClick={lockTree}>Lock your tree for {lockValue} logs</button>
+                                    : <button onClick={buyTree}>{currentOwner != "" ? `Steal this tree to ${currentOwner} for ${value} £ogs` : `Buy this tree for ${value} £ogs`}</button>
+                            }
+
                         </div>
                     </div>)}
         </Popup>

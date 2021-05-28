@@ -25,7 +25,7 @@ const MainPage = () => {
             <div>
                 <Topbar />
                 <ProfileBar />
-                {/* <ViewMap data={data} /> */}
+                <ViewMap data={data} />
             </div>
         )
     }
